@@ -1,0 +1,17 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Env / secrets
+.env
+.env.local
+
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+
+# Misc
+*.log
+test-result.txt
+.DS_Store

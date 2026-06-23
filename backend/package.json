@@ -1,0 +1,17 @@
+{
+  "name": "testtoken-backend",
+  "version": "1.0.0",
+  "description": "Express + ethers.js backend exposing REST endpoints for the TestToken (STT) contract.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.0",
+    "express": "^4.19.2"
+  }
+}
