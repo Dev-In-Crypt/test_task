@@ -8,7 +8,7 @@ interact with it.
 
 | Item | Value |
 |------|-------|
-| Contract | [`0x6b36324F718bBC185B21705BE448F4d4cf660d7E`](https://sepolia.etherscan.io/address/0x6b36324F718bBC185B21705BE448F4d4cf660d7E) |
+| Contract | [`0x6b36324F718bBC185B21705BE448F4d4cf660d7E`](https://sepolia.etherscan.io/address/0x6b36324F718bBC185B21705BE448F4d4cf660d7E) (source [verified ✓](https://sepolia.etherscan.io/address/0x6b36324F718bBC185B21705BE448F4d4cf660d7E#code)) |
 | Owner / deployer | `0xAB013Ad06d9E4c192b8435761a64081F1Eb09892` |
 | Deploy tx | [`0x14e5590d…cb3a4`](https://sepolia.etherscan.io/tx/0x14e5590dd3b3db22ae4ebf9d279f35a1c0cf6253a8fc0e37f5a2c2d68d2cb3a4) |
 | `mint` 50 STT (via API) | [`0xea973812…50bb`](https://sepolia.etherscan.io/tx/0xea973812c209f20e7cef5eb87a793eddeae363630e230cb63ad8f644030450bb) |
