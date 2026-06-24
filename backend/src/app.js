@@ -2,16 +2,13 @@ import express from "express";
 import { ethers } from "ethers";
 import { getDecimals } from "./blockchain.js";
 
-/**
- * Validate that `value` is a positive, finite amount and return it as a
- * string suitable for ethers.parseUnits. Throws a 400-tagged error otherwise.
- */
+// returns the amount as a string for parseUnits, or throws a 400 if it's not
+// a positive number
 function parseAmount(value) {
   if (value === undefined || value === null || value === "") {
     throw httpError(400, "`amount` is required");
   }
   const str = String(value).trim();
-  // Reject things parseUnits would choke on or that are non-positive.
   if (!/^\d+(\.\d+)?$/.test(str) || Number(str) <= 0) {
     throw httpError(400, "`amount` must be a positive number");
   }
@@ -31,7 +28,7 @@ function httpError(status, message) {
   return err;
 }
 
-/** Wrap an async route so thrown errors hit the error middleware. */
+// so async route errors end up in the error middleware instead of hanging
 const asyncHandler = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
@@ -39,10 +36,9 @@ export function createApp({ contract }) {
   const app = express();
   app.use(express.json());
 
-  // Health check — handy for the reviewer / uptime probes.
   app.get("/health", (_req, res) => res.json({ status: "ok" }));
 
-  // POST /mint  { to, amount }  -> owner mints `amount` STT to `to`
+  // mint `amount` STT to `to` (owner only)
   app.post(
     "/mint",
     asyncHandler(async (req, res) => {
@@ -60,7 +56,7 @@ export function createApp({ contract }) {
     })
   );
 
-  // POST /burn  { amount }  -> burns `amount` STT from the server wallet
+  // burn `amount` STT from the server wallet
   app.post(
     "/burn",
     asyncHandler(async (req, res) => {
@@ -77,7 +73,7 @@ export function createApp({ contract }) {
     })
   );
 
-  // GET /balance/:address  -> human-readable balance of `address`
+  // balance of `address`, formatted to whole tokens
   app.get(
     "/balance/:address",
     asyncHandler(async (req, res) => {
@@ -89,11 +85,10 @@ export function createApp({ contract }) {
     })
   );
 
-  // 404 for anything else.
   app.use((_req, res) => res.status(404).json({ error: "Not found" }));
 
-  // Centralised error handling: validation errors -> 400, on-chain / RPC
-  // failures -> 500 with the revert reason when available.
+  // validation errors carry a status (400); everything else is treated as a
+  // 500, using the revert reason if ethers gave us one
   // eslint-disable-next-line no-unused-vars
   app.use((err, _req, res, _next) => {
     const status = err.status ?? 500;

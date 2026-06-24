@@ -8,18 +8,13 @@ import { ethers } from "ethers";
 import { createApp } from "../src/app.js";
 import { createBlockchain, _resetDecimalsCache } from "../src/blockchain.js";
 
-// Self-contained integration test:
-//   1. spawn a local Anvil node
-//   2. deploy TestToken using the Foundry build artifact
-//   3. boot the Express app against it
-//   4. exercise every endpoint over HTTP
-//
-// Prerequisites: `anvil` on PATH and the contract compiled (`forge build`
-// in ../contracts). Run with:  npm test
+// end-to-end test: spin up anvil, deploy the contract from the build artifact,
+// start the app against it and call every endpoint over HTTP.
+// needs anvil on PATH and `forge build` already run in ../contracts.
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const RPC_URL = "http://127.0.0.1:8545";
-// Anvil's deterministic account #0 (test mnemonic) — owner of the token.
+// anvil's first account (default test mnemonic), which owns the token
 const PRIVATE_KEY =
   "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const ALICE = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";

@@ -6,30 +6,21 @@ import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC2
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title TestToken (STT)
-/// @notice Simple ERC20 token used for the skill test.
-/// @dev Built on OpenZeppelin v5:
-///      - ERC20          -> standard token logic + `balanceOf`
-///      - ERC20Burnable  -> `burn(uint256)` from caller's own balance
-///      - Ownable        -> owner-gated `mint`
-///      The initial supply (1000 STT) is minted to the deployer.
+/// @notice ERC20 token with owner-only minting and holder burning.
+/// @dev ERC20Burnable gives us burn(), Ownable gates mint(), balanceOf comes
+///      from ERC20. 1000 STT is minted to the deployer on construction.
 contract TestToken is ERC20, ERC20Burnable, Ownable {
-    /// @notice Initial supply minted to the deployer, expressed in whole tokens.
     uint256 public constant INITIAL_SUPPLY = 1000;
 
     constructor() ERC20("TestToken", "STT") Ownable(msg.sender) {
-        // decimals() defaults to 18, so multiply by 10**18 to get the raw amount.
+        // INITIAL_SUPPLY is in whole tokens, scale it by 10**18
         _mint(msg.sender, INITIAL_SUPPLY * 10 ** decimals());
     }
 
-    /// @notice Mint `amount` (raw, 18-decimals) tokens to `to`. Owner only.
-    /// @param to     Recipient address.
-    /// @param amount Amount in the token's smallest unit (wei-equivalent).
+    /// @notice Mint tokens to an address. `amount` is in the smallest unit.
     function mint(address to, uint256 amount) external onlyOwner {
         _mint(to, amount);
     }
 
-    // `burn(uint256 amount)` is inherited from ERC20Burnable and lets any
-    // holder destroy tokens from their own balance.
-    //
-    // `balanceOf(address account)` is inherited from ERC20.
+    // burn(uint256) and balanceOf(address) are inherited (ERC20Burnable / ERC20)
 }

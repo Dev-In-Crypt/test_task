@@ -1,6 +1,5 @@
-// Minimal ABI for the parts of TestToken the backend interacts with.
-// Keeping it self-contained means the backend has no dependency on the
-// Foundry build artifacts.
+// just the functions the backend calls, so we don't have to pull in the
+// full build artifact
 export const TEST_TOKEN_ABI = [
   "function name() view returns (string)",
   "function symbol() view returns (string)",
